@@ -26,7 +26,6 @@ const Home = () => {
 
                     <div className="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                        всем привет
-                       <AuthSessionStatus/>
                     </div>
                     </div>
                 </div>
