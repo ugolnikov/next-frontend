@@ -1,5 +1,4 @@
 import LoginLinks from '@/app/LoginLinks'
-import AuthSessionStatus from './(auth)/AuthSessionStatus'
 
 export const metadata = {
     title: 'Laravel',
