@@ -20,4 +20,6 @@ const setCsrfToken = () => {
 };
 
 // Экспортируйте axios с настройками
-export { axiosInstance, setCsrfToken };
+
+export { setCsrfToken };
+export default { axiosInstance };
