@@ -1,6 +1,5 @@
 import useSWR from 'swr'
-import CsrfSetup from '@/hooks/csrf'
-import axiosInstance from '@/lib/axios'
+import axios from '@/lib/axios'
 import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 
@@ -10,20 +9,17 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const params = useParams()
     const csrf = async () => {
         try {
-            const response = await axiosInstance.get('/sanctum/csrf-cookie')
+            const response = await axios.get('/sanctum/csrf-cookie')
             console.log("CSRF token set", response)
         } catch (error) {
             console.error('Error setting CSRF token', error)
         }
     }
-    useEffect(() => {
-        <CsrfSetup />
-    }, [])
     
     
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
-        axiosInstance
+        axios
             .get('/api/user')
             .then(res => res.data)
             .catch(error => {
@@ -40,7 +36,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
         setErrors([])
 
-        axiosInstance
+        axios
             .post('/register', props)
             .then(() => mutate())
             .catch(error => {
@@ -56,7 +52,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([])
         setStatus(null)
 
-        axiosInstance
+        axios
             .post('/login', props)
             .then(() => mutate())
             .catch(error => {
@@ -72,7 +68,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([])
         setStatus(null)
 
-        axiosInstance
+        axios
             .post('/forgot-password', { email })
             .then(response => setStatus(response.data.status))
             .catch(error => {
@@ -101,7 +97,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     const resendEmailVerification = ({ setStatus }) => {
-        axiosInstance
+        axios
             .post('/email/verification-notification')
             .then(response => setStatus(response.data.status))
     }
