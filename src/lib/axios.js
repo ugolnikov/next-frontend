@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import Axios from 'axios'
 
 // Создайте экземпляр axios
 const axiosInstance = Axios.create({
@@ -7,19 +7,19 @@ const axiosInstance = Axios.create({
         'X-Requested-With': 'XMLHttpRequest',
     },
     withCredentials: true,
-});
+})
 
 // Этот код будет только для настройки axios и не использует useEffect
 const setCsrfToken = () => {
     if (typeof window !== 'undefined') {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
         if (csrfToken) {
-            axiosInstance.defaults.headers['X-CSRF-TOKEN'] = csrfToken;
+            axiosInstance.defaults.headers['X-CSRF-TOKEN'] = csrfToken
         }
     }
-};
+}
 
 // Экспортируйте axios с настройками
 
-export { setCsrfToken };
-export default { axiosInstance };
+export { setCsrfToken }
+export default { axiosInstance }
