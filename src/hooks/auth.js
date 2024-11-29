@@ -10,7 +10,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const params = useParams()
     const csrf = async () => {
         try {
-            const response = await axios.get('/sanctum/csrf-cookie')
+            const response = await axiosInstance.get('/sanctum/csrf-cookie')
             console.log("CSRF token set", response)
         } catch (error) {
             console.error('Error setting CSRF token', error)
