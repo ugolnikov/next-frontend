@@ -7,19 +7,19 @@ import { useParams, useRouter } from 'next/navigation'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     useEffect(() => {
         <CsrfSetup />
-    }, []);
+    }, [])
     const router = useRouter()
     const params = useParams()
     const csrf = () => {
         axiosInstance.get('/sanctum/csrf-cookie')
             .then(response => {
                 // eslint-disable-next-line no-console
-                console.log("CSRF token set", response);
+                console.log("CSRF token set", response)
             })
             .catch(error => {
                 // eslint-disable-next-line no-console
-                console.error('Error setting CSRF token', error);
-            });
+                console.error('Error setting CSRF token', error)
+            })
     }
     
     
