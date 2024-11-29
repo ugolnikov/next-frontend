@@ -9,12 +9,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const csrf = () => {
         axios.get('/sanctum/csrf-cookie')
             .then(response => {
+                // eslint-disable-next-line no-console
                 console.log("CSRF token set", response);
             })
             .catch(error => {
+                // eslint-disable-next-line no-console
                 console.error('Error setting CSRF token', error);
             });
     }
+    
     
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
