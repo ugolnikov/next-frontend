@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import CsrfSetup from '@/hooks/csrf';
+import CsrfSetup from '@/hooks/csrf'
 import axiosInstance from '@/lib/axios'
 import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
