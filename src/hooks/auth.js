@@ -6,6 +6,16 @@ import { useParams, useRouter } from 'next/navigation'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
     const params = useParams()
+    const csrf = () => {
+        axios.get('/sanctum/csrf-cookie')
+            .then(response => {
+                console.log("CSRF token set", response);
+            })
+            .catch(error => {
+                console.error('Error setting CSRF token', error);
+            });
+    }
+    
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         axios
@@ -18,7 +28,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             }),
     )
 
-    const csrf = () => axios.get('/sanctum/csrf-cookie')
+    
 
     const register = async ({ setErrors, ...props }) => {
         await csrf()
