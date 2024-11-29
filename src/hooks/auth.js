@@ -84,7 +84,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([])
         setStatus(null)
 
-        axiosInstance
+        axios
             .post('/reset-password', { token: params.token, ...props })
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
@@ -104,7 +104,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const logout = async () => {
         if (!error) {
-            await axiosInstance.post('/logout').then(() => mutate())
+            await axios.post('/logout').then(() => mutate())
         }
 
         window.location.pathname = '/login'
