@@ -1,13 +1,17 @@
 import useSWR from 'swr'
-import axios from '@/lib/axios'
+import CsrfSetup from '@/components/CsrfSetup';
+import axiosInstance from '@/lib/axios'
 import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
+    useEffect(() => {
+        <CsrfSetup />
+    }, []);
     const router = useRouter()
     const params = useParams()
     const csrf = () => {
-        axios.get('/sanctum/csrf-cookie')
+        axiosInstance.get('/sanctum/csrf-cookie')
             .then(response => {
                 // eslint-disable-next-line no-console
                 console.log("CSRF token set", response);
@@ -21,7 +25,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
-        axios
+        axiosInstance
             .get('/api/user')
             .then(res => res.data)
             .catch(error => {
@@ -38,7 +42,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
         setErrors([])
 
-        axios
+        axiosInstance
             .post('/register', props)
             .then(() => mutate())
             .catch(error => {
@@ -54,7 +58,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([])
         setStatus(null)
 
-        axios
+        axiosInstance
             .post('/login', props)
             .then(() => mutate())
             .catch(error => {
@@ -70,7 +74,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([])
         setStatus(null)
 
-        axios
+        axiosInstance
             .post('/forgot-password', { email })
             .then(response => setStatus(response.data.status))
             .catch(error => {
@@ -86,7 +90,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([])
         setStatus(null)
 
-        axios
+        axiosInstance
             .post('/reset-password', { token: params.token, ...props })
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
@@ -99,14 +103,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     const resendEmailVerification = ({ setStatus }) => {
-        axios
+        axiosInstance
             .post('/email/verification-notification')
             .then(response => setStatus(response.data.status))
     }
 
     const logout = async () => {
         if (!error) {
-            await axios.post('/logout').then(() => mutate())
+            await axiosInstance.post('/logout').then(() => mutate())
         }
 
         window.location.pathname = '/login'
